@@ -6,7 +6,7 @@ import dash
 import plotly_express as px
 from dash import dcc
 from dash import html
-
+import os
 
 class BMEApiHandler:
     '''
@@ -32,7 +32,7 @@ class BMEApiHandler:
         '''
         self.url_base = 'https://miax-gateway-jog4ew3z3q-ew.a.run.app'
         self.competi = 'mia_9'
-        self.user_key = 'AIzaSyCn-5bWSRfb-DnspfeiXlxjvNttoRjhza4'
+        self.user_key = os.environ.get('bme_api_key', 'NOT SET')
 
     def get_ticker_master(self, market):
         '''
