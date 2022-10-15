@@ -1,12 +1,9 @@
 import pandas as pd
 import requests
 import json
-import requests
-import dash
-import plotly_express as px
-from dash import dcc
-from dash import html
 import os
+
+
 
 class BMEApiHandler:
     '''
@@ -32,7 +29,7 @@ class BMEApiHandler:
         '''
         self.url_base = 'https://miax-gateway-jog4ew3z3q-ew.a.run.app'
         self.competi = 'mia_9'
-        self.user_key = os.environ.get('bme_api_key', 'NOT SET')
+        self.user_key = os.environ['MIAX_API_KEY']
 
     def get_ticker_master(self, market):
         '''
@@ -250,25 +247,3 @@ class BMEApiHandler:
             }
         response = requests.post(url_auth, data=json.dumps(params))
         print(response.text)
-
-market = 'IBEX'
-ticker = 'SAN'
-
-api_handler = BMEApiHandler()
-ticker_data = api_handler.get_ohlc_data(market,ticker)
-
-external_stylesheets = ['https://codepen.io/chriddyp/pen/bWLwgP.css']
-
-app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
-
-fig = px.line(ticker_data, x=ticker_data.index, y='close')
-
-app.layout = html.Div([
-    dcc.Graph(
-        id='ticker_data',
-        figure=fig
-    )
-])
-
-if __name__ == '__main__':
-    app.run_server(debug=True)
